@@ -1,0 +1,7 @@
+# ignore ALL .log files
+*.log
+
+__pycache__/
+bin/
+dist/
+numpy/

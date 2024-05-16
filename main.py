@@ -1,51 +1,16 @@
 import tkinter as tk
-# from maze_generator import generate_maze
+from maze_generator import autogen
 from maze_solver import solve_maze
 
-maze = [
-    ['#', 'S', '#', '#', '#', '#', '#', '#', '#'],
-    ['#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#'],
-    ['#', ' ', '#', '#', ' ', '#', ' ', '#', '#'],
-    ['#', ' ', ' ', ' ', ' ', '#', ' ', ' ', '#'],
-    ['#', '#', ' ', ' ', '#', '#', '#', ' ', '#'],
-    ['#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#'],
-    ['#', '#', '#', '#', '#', 'E', '#', '#', '#'],
-]
-
-
-
-maze2 = [
-    ['#', '#', '#', '#', '#', '#', '#', '#'],
-    ['#', 'S', ' ', ' ', ' ', ' ', ' ', '#'],
-    ['#', '#', '#', '#', '#', '#', ' ', '#'],
-    ['#', ' ', ' ', ' ', ' ', ' ', ' ', '#'],
-    ['#', '#', '#', '#', '#', '#', ' ', '#'],
-    ['#', ' ', ' ', ' ', ' ', ' ', ' ', '#'],
-    ['#', '#', '#', '#', '#', ' ', '#', '#'],
-    ['#', ' ', ' ', ' ', ' ', ' ', ' ', 'E'],
-    ['#', '#', '#', '#', '#', '#', '#', '#'],
-]
-
-maze3 = [
-    ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
-    ['#', 'S', ' ', ' ', '#', ' ', ' ', ' ', ' ', '#'],
-    ['#', '#', '#', ' ', '#', '#', '#', ' ', '#', '#'],
-    ['#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', '#'],
-    ['#', '#', '#', ' ', '#', ' ', '#', '#', ' ', '#'],
-    ['#', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', '#'],
-    ['#', ' ', '#', '#', '#', '#', '#', '#', ' ', '#'],
-    ['#', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#'],
-    ['#', ' ', ' ', ' ', ' ', '#', '#', '#', ' ', '#'],
-    ['#', '#', '#', '#', '#', '#', '#', '#', 'E', '#'],
-]
-
+w = 15
+h = 15
 
 class MazeGame:
     def __init__(self, master):
         self.master = master
-        self.canvas = tk.Canvas(master, width=600, height=600)
+        self.canvas = tk.Canvas(master, width=1000, height=900)
         self.canvas.pack()
-        self.maze = maze  # Auto-generate maze
+        self.maze = autogen(w, h)  # Auto-generate maze
         self.draw_maze()
         self.player_position = self.find_start_position()
         self.draw_player()
@@ -53,17 +18,25 @@ class MazeGame:
         master.bind("<Key>", self.move_player)
 
         solve_button = tk.Button(master, text="Auto Solve", command=self.auto_solve)
+        regenerate_btn = tk.Button(master, text="Re-Generate", command=self.regen)
         solve_button.pack()
-
+        regenerate_btn.pack()
+       
+    def regen(self):
+        self.maze = autogen(w,h)
+        self.draw_maze()
+        self.player_position = self.find_start_position()
+        self.draw_player()
+    
     def draw_maze(self):
         for i, row in enumerate(self.maze):
             for j, cell in enumerate(row):
                 color = "black" if cell == "#" else "white"
-                self.canvas.create_rectangle(j * 60, i * 60, (j + 1) * 60, (i + 1) * 60, fill=color)
+                self.canvas.create_rectangle(j * 30, i * 30, (j + 1) * 30, (i + 1) * 30, fill=color)
 
     def draw_player(self):
         x, y = self.player_position
-        self.canvas.create_oval(y * 60 + 10, x * 60 + 10, (y + 1) * 60 - 10, (x + 1) * 60 - 10, fill="blue")
+        self.canvas.create_oval(y * 30 + 10, x * 30 + 10, (y + 1) * 30 - 10, (x + 1) * 30 - 10, fill="blue")
 
     def find_start_position(self):
         for i, row in enumerate(self.maze):
@@ -96,7 +69,7 @@ class MazeGame:
         solution = solve_maze(self.maze)
         if solution:
             for x, y in solution:
-                self.canvas.create_oval(y * 60 + 20, x * 60 + 20, (y + 1) * 60 - 20, (x + 1) * 60 - 20, fill="green")
+                self.canvas.create_oval(y * 30 + 20, x * 30 + 20, (y + 1) * 30 - 20, (x + 1) * 30 - 20, fill="green")
 
     def show_message(self, message):
         self.canvas.create_text(300, 300, text=message, font=("Helvetica", 16), fill="red")
