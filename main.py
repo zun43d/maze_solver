@@ -225,5 +225,6 @@ class MazeGame:
 
 if __name__ == "__main__":
     root = tk.Tk()
+    root.title("Maze Game")
     game = MazeGame(root)
     root.mainloop()
