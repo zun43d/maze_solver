@@ -8,6 +8,8 @@ h = 15
 class MazeGame:
     def __init__(self, master):
         self.master = master
+        self.master.geometry("1000x900")  # Set the fixed window size
+        self.master.resizable(False, False)  # Disable resizing
         self.main_menu()
 
     def main_menu(self):
