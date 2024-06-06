@@ -32,12 +32,14 @@ class MazeGame:
         self.player1_steps = 0
         self.player2_steps = 0
         self.current_player = 1
+        self.maze = autogen(w, h)
         self.pvp_mode()
 
     def start_pvc(self):
         self.player_steps = 0
         self.computer_steps = 0
         self.current_player = 1
+        self.maze = autogen(w, h)
         self.pvc_mode()
 
     def pvp_mode(self):
@@ -47,7 +49,6 @@ class MazeGame:
         self.canvas = tk.Canvas(self.master, width=1000, height=900)
         self.canvas.pack()
 
-        self.maze = autogen(w, h)  # Auto-generate maze
         self.draw_maze()
         self.player_position = self.find_start_position()
         self.draw_player()
@@ -65,7 +66,6 @@ class MazeGame:
         self.canvas = tk.Canvas(self.master, width=1000, height=900)
         self.canvas.pack()
 
-        self.maze = autogen(w, h)  # Auto-generate maze
         self.draw_maze()
         self.player_position = self.find_start_position()
         self.draw_player()
