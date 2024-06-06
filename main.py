@@ -11,6 +11,11 @@ class MazeGame:
         self.canvas = tk.Canvas(master, width=1000, height=900)
         self.canvas.pack()
         self.maze = autogen(w, h)  # Auto-generate maze
+
+        self.step_count = 0
+        self.step_label = tk.Label(master, text=f"Steps: {self.step_count}")
+        self.step_label.pack()
+
         self.draw_maze()
         self.player_position = self.find_start_position()
         self.draw_player()
@@ -27,6 +32,10 @@ class MazeGame:
         self.draw_maze()
         self.player_position = self.find_start_position()
         self.draw_player()
+        
+        # Reset step count
+        self.step_count = 0
+        self.step_label.config(text=f"Steps: {self.step_count}")
     
     def draw_maze(self):
         for i, row in enumerate(self.maze):
@@ -58,12 +67,24 @@ class MazeGame:
             dy = 1
 
         new_x, new_y = self.player_position[0] + dx, self.player_position[1] + dy
-        if 0 <= new_x < len(self.maze) and 0 <= new_y < len(self.maze[0]) and self.maze[new_x][new_y] != "#":
+        if 0 <= new_x < len(self.maze) and 0 <= new_y < len(self.maze[0]) and self.maze[new_x][new_y] != '#':
+            # Clear the previous position
+            x, y = self.player_position
+            self.canvas.create_rectangle(y * 30, x * 30, (y + 1) * 30, (x + 1) * 30, fill="white")
+            
+            # Update the player's position
             self.player_position = (new_x, new_y)
-            self.canvas.delete("player")
+            
+            # Draw the player at the new position
             self.draw_player()
+
+            # Increment step count and update label
+            self.step_count += 1
+            self.step_label.config(text=f"Steps: {self.step_count}")
+            
+            # Check if the player has reached the end
             if self.maze[new_x][new_y] == 'E':
-                self.show_message("Congratulations! You reached the end of the maze.")
+                self.show_win_message()
 
     def auto_solve(self):
         solution = solve_maze(self.maze)
@@ -71,8 +92,8 @@ class MazeGame:
             for x, y in solution:
                 self.canvas.create_oval(y * 30 + 20, x * 30 + 20, (y + 1) * 30 - 20, (x + 1) * 30 - 20, fill="green")
 
-    def show_message(self, message):
-        self.canvas.create_text(300, 300, text=message, font=("Helvetica", 16), fill="red")
+    def show_win_message(self):
+        self.canvas.create_text(500, 450, text="Congratualtions! Maze was Solved!", font=("Helvetica", 24), fill="red")
 
 def main():
     root = tk.Tk()
