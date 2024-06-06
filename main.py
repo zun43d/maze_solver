@@ -8,7 +8,7 @@ h = 15
 class MazeGame:
     def __init__(self, master):
         self.master = master
-        self.master.geometry("1000x900")  # Set the fixed window size
+        self.master.geometry("1000x1000")  # Set the fixed window size
         self.master.resizable(False, False)  # Disable resizing
         self.main_menu()
 
@@ -18,9 +18,13 @@ class MazeGame:
         title_label = tk.Label(self.master, text="Maze Game", font=("Helvetica", 24))
         title_label.pack(pady=20)
 
-        pvp_button = tk.Button(self.master, text="Player vs Player", font=("Helvetica", 16), command=self.start_pvp)
-        pvc_button = tk.Button(self.master, text="Player vs Computer", font=("Helvetica", 16), command=self.start_pvc)
-        exit_button = tk.Button(self.master, text="Exit Game", font=("Helvetica", 16), command=self.master.quit)
+        # Create a frame to hold the buttons
+        button_frame = tk.Frame(self.master)
+        button_frame.pack(expand=True)
+
+        pvp_button = tk.Button(button_frame, text="Player vs Player", font=("Helvetica", 16), command=self.start_pvp)
+        pvc_button = tk.Button(button_frame, text="Player vs Computer", font=("Helvetica", 16), command=self.start_pvc)
+        exit_button = tk.Button(button_frame, text="Exit Game", font=("Helvetica", 16), command=self.master.quit)
 
         pvp_button.pack(pady=10)
         pvc_button.pack(pady=10)
@@ -48,7 +52,7 @@ class MazeGame:
         self.clear_screen()
 
         self.step_count = 0
-        self.canvas = tk.Canvas(self.master, width=1000, height=900)
+        self.canvas = tk.Canvas(self.master, width=950, height=950)
         self.canvas.pack()
 
         self.draw_maze()
@@ -65,7 +69,7 @@ class MazeGame:
         self.clear_screen()
 
         self.step_count = 0
-        self.canvas = tk.Canvas(self.master, width=1000, height=900)
+        self.canvas = tk.Canvas(self.master, width=950, height=950)
         self.canvas.pack()
 
         self.draw_maze()
