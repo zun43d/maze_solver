@@ -2,13 +2,13 @@ import tkinter as tk
 from maze_generator import autogen
 from maze_solver import solve_maze
 
-w = 15
-h = 15
+w = 12
+h = 12
 
 class MazeGame:
     def __init__(self, master):
         self.master = master
-        self.master.geometry("1000x1000")  # Set the fixed window size
+        self.master.geometry("1000x780")  # Set the fixed window size
         self.master.resizable(False, False)  # Disable resizing
         self.main_menu()
 
@@ -52,15 +52,15 @@ class MazeGame:
         self.clear_screen()
 
         self.step_count = 0
-        self.canvas = tk.Canvas(self.master, width=950, height=950)
-        self.canvas.pack()
+        self.canvas = tk.Canvas(self.master, width=800, height=800)
+        self.canvas.place(x=0, y=0)
 
         self.draw_maze()
         self.player_position = self.find_start_position()
         self.draw_player()
 
         self.step_label = tk.Label(self.master, text=f"Steps: {self.step_count}")
-        self.step_label.pack()
+        self.step_label.place(x=780, y=350)
 
     def pvp_mode(self):
         self.mode_interface()
@@ -81,7 +81,7 @@ class MazeGame:
         if hasattr(self, 'player_label'):
             self.player_label.destroy()
         self.player_label = tk.Label(self.master, text=f"Player {self.current_player}'s Turn", font=("Helvetica", 18))
-        self.player_label.pack()
+        self.player_label.place(x=780, y=300)
 
     def move_player(self, event, mode):
         key = event.keysym
