@@ -34,14 +34,14 @@ class MazeGame:
         for widget in self.master.winfo_children():
             widget.destroy()
 
-    def start_pvp(self):
+    def start_pvp(self): # Player vs Player
         self.player1_steps = 0
         self.player2_steps = 0
         self.current_player = 1
         self.maze = autogen(w, h)
         self.pvp_mode()
 
-    def start_pvc(self):
+    def start_pvc(self): # Player vs Computer
         self.player_steps = 0
         self.computer_steps = 0
         self.current_player = 1
